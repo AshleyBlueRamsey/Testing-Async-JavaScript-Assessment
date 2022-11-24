@@ -76,18 +76,30 @@ describe("src/main.js", () => {
     });
 
     it("should make a POST request to the appropriate URL with a valid data body", async () => {
-      // Write your solution here
-      expect(1).toBe(2);
+      const response = await index();
+      const URL = `${BASE_URL}/students`;
+      axios.post.mockImplementationOnce(() => Promise.resolve(response))
+
+      expect(URL).toBe(`${BASE_URL}/students`);
     });
 
     it("should resolve with a promise containing the newly saved student", async () => {
-      // Write your solution here
-      expect(1).toBe(2);
+      jest.spyOn(axios, "get");
+      axios.get(() => Promise.resolve({data}))
+      const response = await index();
+      const expected = student.data
+
+      expect(response).toEqual(expected);
     });
     
     it("should log an error to the console", async () => {
-      // Write your solution here
-      expect(1).toBe(2);
+      axios.get.mockImplementation(() => 
+      Promise.reject(new Error("error"))
+      );
+      jest.spyOn(console, "error");
+        await index();
+
+      expect(console.error).toHaveBeenCalledWith("error");
     });
   });
   
@@ -109,18 +121,33 @@ describe("src/main.js", () => {
     });
 
     it("should make a GET request to the appropriate URL", async () => {
-      // Write your solution here
-      expect(1).toBe(2);
+      jest.spyOn(axios, "post");
+
+      const respobse = await index();
+
+      const URL = `${BASE_URL}/students`;
+      axios.post.mockImplementationOnce(() => Promise.resolve(response))
+    
+      expect(URL).toBe(`${BASE_URL}/students`);
     });
 
     it("should resolve with a promise containing the student data", async () => {
-      // Write your solution here
-      expect(1).toBe(2);
+      jest.spyOn(axios, "get");
+      axios.get(() => Promise.resolve({data:student}));
+      
+      const response = await index();
+      const expected = student.data
+      expect(response).toEqual(expected);
     });
      
     it("should log an error to the console", async () => {
-      // Write your solution here
-      expect(1).toBe(2);
+      axios.get.mockImplementation(()=>
+        Promise.reject(new Error("error"))
+   );
+      jest.spyOn(console, "error");
+      await index();
+      
+      expect(console.error).toHaveBeenCalledWith("error");
     });
   }); 
 });  
